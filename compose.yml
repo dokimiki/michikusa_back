@@ -10,4 +10,3 @@ services:
   cloudflared:
     image: cloudflare/cloudflared:latest
     command: tunnel --no-autoupdate run --token $CLOUDFLARE_TUNNEL_TOKEN
-
