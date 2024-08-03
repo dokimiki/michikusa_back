@@ -41,9 +41,9 @@ func main() {
 		_, err := getNearestStation(req.Longitude, req.Latitude, odptAPIKey)
 		if err != nil {
 			log.Println(err)
-			if err.Error() == "no stations exit within searchable area" {
+			if err.Error() == "no stations exits within searchable area" {
 				return c.JSON(http.StatusBadRequest, map[string]string{
-					"message": "No stations exit within searchable area",
+					"message": "No stations exits within searchable area",
 				})
 			}
 			return c.JSON(http.StatusInternalServerError, map[string]string{
