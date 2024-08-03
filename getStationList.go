@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
-	"log"
 	"michikusa_back/types"
 	"net/http"
 	"net/url"
@@ -20,7 +19,6 @@ func getStationList(neaestStation types.OdptStation, odptAPIKey string) ([]types
 	q.Set("odpt:railway", neaestStation.Railway)
 	q.Set("acl:consumerKey", odptAPIKey)
 	u.RawQuery = q.Encode()
-	log.Println(u.String())
 	req, _ := http.NewRequest("GET", u.String(), nil)
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
