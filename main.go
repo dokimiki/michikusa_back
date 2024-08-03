@@ -38,7 +38,7 @@ func main() {
 			})
 		}
 
-		_, err := getNearestStation(req.Longitude, req.Latitude, odptAPIKey)
+		neaestStation, err := getNearestStation(req.Longitude, req.Latitude, odptAPIKey)
 		if err != nil {
 			log.Println(err)
 			if err.Error() == "no stations exits within searchable area" {
@@ -50,6 +50,14 @@ func main() {
 				"message": "Internal Server Error (getNearestStation)",
 			})
 		}
+		stationList, err := getStationList(neaestStation, odptAPIKey)
+		if err != nil {
+			log.Println(err)
+			return c.JSON(http.StatusInternalServerError, map[string]string{
+				"message": "Internal Server Error (getStationList)",
+			})
+		}
+		_ = stationList // todo
 
 		res := types.InitialResponseData{
 			NearestStation: types.Station{
