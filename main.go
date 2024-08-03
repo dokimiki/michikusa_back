@@ -129,8 +129,6 @@ func main() {
 		return c.JSON(http.StatusOK, res)
 	})
 
-	e.GET("/get-facility", GetFacility)
-
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
