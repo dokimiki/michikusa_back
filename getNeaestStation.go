@@ -52,5 +52,5 @@ func getNearestStation(longitude float64, latitude float64, odptAPIKey string) (
 		// 外部APIに対する負荷を軽減するため100ms待機する
 		time.Sleep(100 * time.Millisecond)
 	}
-	return types.OdptStation{}, errors.New("no stations exit within searchable area")
+	return types.OdptStation{}, errors.New("no stations exist within searchable area")
 }
