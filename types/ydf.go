@@ -1,16 +1,6 @@
 package types
 
-type YDF struct {
-	ResultInfo struct {
-		Count       int     `json:"Count"`
-		Total       int     `json:"Total"`
-		Start       int     `json:"Start"`
-		Status      int     `json:"Status"`
-		Description string  `json:"Description"`
-		Copyright   string  `json:"Copyright"`
-		Latency     float64 `json:"Latency"`
-	} `json:"ResultInfo"`
-	Feature []struct {
+type YDFFeature struct {
 		ID       string `json:"Id"`
 		Gid      string `json:"Gid"`
 		Name     string `json:"Name"`
@@ -55,5 +45,18 @@ type YDF struct {
 			SmartPhoneCouponFlag string `json:"SmartPhoneCouponFlag"`
 			KeepCount            string `json:"KeepCount"`
 		} `json:"Property"`
-	} `json:"Feature"`
+	}
+
+
+type YDF struct {
+	ResultInfo struct {
+		Count       int     `json:"Count"`
+		Total       int     `json:"Total"`
+		Start       int     `json:"Start"`
+		Status      int     `json:"Status"`
+		Description string  `json:"Description"`
+		Copyright   string  `json:"Copyright"`
+		Latency     float64 `json:"Latency"`
+	} `json:"ResultInfo"`
+	Feature []YDFFeature `json:"Feature"`
 }
