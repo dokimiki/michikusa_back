@@ -37,7 +37,7 @@ func GetNearestStation(longitude float64, latitude float64, odptAPIKey string) (
 		}
 		defer resp.Body.Close()
 
-		body , err := io.ReadAll(resp.Body)
+		body, err := io.ReadAll(resp.Body)
 		if err != nil {
 			return types.OdptStation{}, err
 		}
