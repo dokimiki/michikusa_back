@@ -6,6 +6,7 @@ type Facility struct {
 	Genre string `json:"genre"`
 	Latitude float64 `json:"latitude"`
 	Longitude float64 `json:"longitude"`
+	MapURL string `json:"map_url"`
 }
 
 type Station struct {
