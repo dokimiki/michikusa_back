@@ -71,9 +71,26 @@ func main() {
 				"message": "Internal Server Error (getRailwayInfo)",
 			})
 		}
-
 		// 乱数で行き先駅を選択
 		destinationStation := stationList[rand.Intn(len(stationList))]
+
+		// neaest->destinationまでの駅数
+		var neaestStationIndex int
+		var destinationStationIndex int
+		for i, station := range railwayInfo.StationOrder {
+			if station.Station == nearestStation.SameAs {
+				neaestStationIndex = i
+			}
+			if station.Station == destinationStation.SameAs {
+				destinationStationIndex = i
+			}
+		}
+		var numberOfStations int
+		if neaestStationIndex < destinationStationIndex {
+			numberOfStations = destinationStationIndex - neaestStationIndex
+		} else {
+			numberOfStations = neaestStationIndex - destinationStationIndex
+		}
 
 		facilityList, err := GetFacility(types.LocationsRequestData{
 			Latitude:  destinationStation.Lat,
@@ -113,6 +130,7 @@ func main() {
 		res.RailwayName = railwayInfo.Title
 		res.RailwayColor = railwayInfo.Color
 		res.Facilities = facilities
+		res.NumerOfStations = numberOfStations
 		return c.JSON(http.StatusOK, res)
 	})
 
