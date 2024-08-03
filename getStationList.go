@@ -12,11 +12,11 @@ import (
 
 // 最寄駅を通る路線の駅一覧を取得する関数
 // 最寄り駅はフィルタされる
-func getStationList(neaestStation types.OdptStation, odptAPIKey string) ([]types.OdptStation, error) {
+func getStationList(nearestStation types.OdptStation, odptAPIKey string) ([]types.OdptStation, error) {
 	baseURL := "https://api.odpt.org/api/v4/odpt:Station"
 	u, _ := url.Parse(baseURL)
 	q := u.Query()
-	q.Set("odpt:railway", neaestStation.Railway)
+	q.Set("odpt:railway", nearestStation.Railway)
 	q.Set("acl:consumerKey", odptAPIKey)
 	u.RawQuery = q.Encode()
 	req, _ := http.NewRequest("GET", u.String(), nil)
@@ -40,7 +40,7 @@ func getStationList(neaestStation types.OdptStation, odptAPIKey string) ([]types
 	}
 	// 最寄り駅をフィルタする
 	for i, station := range stations {
-		if station.ID == neaestStation.ID {
+		if station.ID == nearestStation.ID {
 			stations = append(stations[:i], stations[i+1:]...)
 			break
 		}
