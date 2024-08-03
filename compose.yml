@@ -1,0 +1,13 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    depends_on:
+      - cloudflared
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run --token $CLOUDFLARE_TUNNEL_TOKEN
+
