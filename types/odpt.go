@@ -15,7 +15,13 @@ type OdptRailway struct {
 	// Region
 	AscendingRailDirection string `json:"odpt:ascendingRailDirection,omitempty"`
 	DescendingRailDirection string `json:"odpt:descendingRailDirection,omitempty"`
-	StationOrder []map[string]string `json:"odpt:stationOrder,omitempty"`
+	StationOrder []OdptStationOrder `json:"odpt:stationOrder,omitempty"`
+}
+
+type OdptStationOrder struct {
+	Station string `json:"odpt:station"`
+	Index int `json:"odpt:index"`
+	StationTitle map[string]string `json:"odpt:stationTitle,omitempty"`
 }
 
 // referece: 3.3.4. odpt:RailwayFare
