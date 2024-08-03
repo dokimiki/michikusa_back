@@ -9,7 +9,7 @@ import (
 	"net/url"
 )
 
-func GetStationInfo(odptRailway string, odptAPIKey string) ([]types.OdptStation, error) {
+func GetRailwayInfo(odptRailway string, odptAPIKey string) ([]types.OdptRailway, error) {
 	u, _ := url.Parse("https://api.odpt.org/api/v4/odpt:Railway")
 	q := u.Query()
 	q.Set("owl:sameAs", odptRailway)
@@ -18,24 +18,24 @@ func GetStationInfo(odptRailway string, odptAPIKey string) ([]types.OdptStation,
 	req, _ := http.NewRequest("GET", u.String(), nil)
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return []types.OdptStation{}, err
+		return []types.OdptRailway{}, err
 	}
 	if resp.StatusCode != http.StatusOK {
-		return []types.OdptStation{}, fmt.Errorf("api response is not ok(%d)", resp.StatusCode)
+		return []types.OdptRailway{}, fmt.Errorf("api response is not ok(%d)", resp.StatusCode)
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return []types.OdptStation{}, err
+		return []types.OdptRailway{}, err
 	}
 
 	fmt.Println(string(body))
 
-	var stationInfo []types.OdptStation
-	if err := json.Unmarshal(body, &stationInfo); err != nil {
-		return []types.OdptStation{}, err
+	var railwayInfo []types.OdptRailway
+	if err := json.Unmarshal(body, &railwayInfo); err != nil {
+		return []types.OdptRailway{}, err
 	}
 
-	return stationInfo, nil
+	return railwayInfo, nil
 }
