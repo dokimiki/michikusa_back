@@ -12,7 +12,7 @@ import (
 
 // 最寄駅を通る路線の駅一覧を取得する関数
 // 最寄り駅はフィルタされる
-func getStationList(nearestStation types.OdptStation, odptAPIKey string) ([]types.OdptStation, error) {
+func GetStationList(nearestStation types.OdptStation, odptAPIKey string) ([]types.OdptStation, error) {
 	baseURL := "https://api.odpt.org/api/v4/odpt:Station"
 	u, _ := url.Parse(baseURL)
 	q := u.Query()
