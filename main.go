@@ -23,7 +23,7 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"https://michikusa-front.pages.dev/","http://localhost:5173"},
+		AllowOrigins: []string{"https://michikusa-front.pages.dev/", "http://localhost:5173"},
 		AllowMethods: []string{http.MethodGet},
 	}))
 
@@ -39,44 +39,44 @@ func main() {
 
 		res := types.InitialResponseData{
 			NearestStation: types.Station{
-				Name: "新宿",
-				Latitude: 35.69237,
+				Name:      "新宿",
+				Latitude:  35.69237,
 				Longitude: 139.70121,
 			},
 			DestinationStation: types.Station{
-				Name: "東京",
-				Latitude: 35.6818,
+				Name:      "東京",
+				Latitude:  35.6818,
 				Longitude: 139.7647,
 			},
-			RailwayName: "丸ノ内線",
+			RailwayName:  "丸ノ内線",
 			RailwayColor: "#F62E36",
 			Facilities: []types.Facility{
 				{
-					Name: "東京国際フォーラム",
-					Distance: 500,
-					Genre: "コンベンションセンター",
-					Latitude: 35.6784,
+					Name:      "東京国際フォーラム",
+					Distance:  500,
+					Genre:     "コンベンションセンター",
+					Latitude:  35.6784,
 					Longitude: 139.7636,
 				},
 				{
-					Name: "皇居外苑",
-					Distance: 1000,
-					Genre: "公園",
-					Latitude: 35.6825,
+					Name:      "皇居外苑",
+					Distance:  1000,
+					Genre:     "公園",
+					Latitude:  35.6825,
 					Longitude: 139.7521,
 				},
 				{
-					Name: "東京ステーションギャラリー",
-					Distance: 0,
-					Genre: "美術館",
-					Latitude: 35.6812,
+					Name:      "東京ステーションギャラリー",
+					Distance:  0,
+					Genre:     "美術館",
+					Latitude:  35.6812,
 					Longitude: 139.7671,
 				},
 			},
 		}
 		return c.JSON(http.StatusOK, res)
 	})
-	
+
 	// 「行き先駅」の情報を受け取って、付近の施設の情報を返すAPI
 	e.GET("/locations-list", func(c echo.Context) error {
 		var req types.LocationsRequestData
@@ -90,30 +90,32 @@ func main() {
 		res := types.LocationsResponseData{
 			Facilities: []types.Facility{
 				{
-					Name: "東京国際フォーラム",
-					Distance: 500,
-					Genre: "コンベンションセンター",
-					Latitude: 35.6784,
+					Name:      "東京国際フォーラム",
+					Distance:  500,
+					Genre:     "コンベンションセンター",
+					Latitude:  35.6784,
 					Longitude: 139.7636,
 				},
 				{
-					Name: "皇居外苑",
-					Distance: 1000,
-					Genre: "公園",
-					Latitude: 35.6825,
+					Name:      "皇居外苑",
+					Distance:  1000,
+					Genre:     "公園",
+					Latitude:  35.6825,
 					Longitude: 139.7521,
 				},
 				{
-					Name: "東京ステーションギャラリー",
-					Distance: 0,
-					Genre: "美術館",
-					Latitude: 35.6812,
+					Name:      "東京ステーションギャラリー",
+					Distance:  0,
+					Genre:     "美術館",
+					Latitude:  35.6812,
 					Longitude: 139.7671,
 				},
 			},
 		}
 		return c.JSON(http.StatusOK, res)
 	})
+
+	e.GET("/get-facility", GetFacility)
 
 	port := os.Getenv("PORT")
 	if port == "" {
