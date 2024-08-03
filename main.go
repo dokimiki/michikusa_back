@@ -107,10 +107,16 @@ func main() {
 		for _, facility := range facilityList.Feature {
 			lat, _ := strconv.ParseFloat(strings.Split(facility.Geometry.Coordinates, ",")[1], 64)
 			long, _ :=  strconv.ParseFloat(strings.Split(facility.Geometry.Coordinates, ",")[0], 64)
+			var genre string
+			if facility.Property.Genre == nil || len(facility.Property.Genre) == 0 {
+				genre = "その他"
+			}else{
+				genre = facility.Property.Genre[0].Name
+			}
 			facilities = append(facilities, types.Facility{
 				Name:      facility.Name,
 				Distance:  int(geo.Distance(orb.Point{destinationStation.Lat, destinationStation.Long}, orb.Point{lat, long})),
-				Genre:     facility.Property.Genre[0].Name,
+				Genre:     genre,
 				Latitude: lat,
 				Longitude: long,
 			})
@@ -154,8 +160,9 @@ func main() {
 		
 		var facilities []types.Facility
 		for _, facility := range facilityList.Feature {
-			lat, _ := strconv.ParseFloat(strings.Split(facility.Geometry.Coordinates, ",")[1], 64)
-			long, _ :=  strconv.ParseFloat(strings.Split(facility.Geometry.Coordinates, ",")[0], 64)
+			coords := strings.Split(facility.Geometry.Coordinates, ",")
+			lat, _ := strconv.ParseFloat(coords[1], 64)
+			long, _ :=  strconv.ParseFloat(coords[0], 64)
 			facilities = append(facilities, types.Facility{
 				Name:      facility.Name,
 				Distance:  int(geo.Distance(orb.Point{req.Latitude, req.Longitude}, orb.Point{lat, long})),
