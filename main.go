@@ -37,6 +37,11 @@ func main() {
 			})
 		}
 
+		_, err := getNearestStation(req.Longitude, req.Latitude, odptAPIKey)
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, err)
+		}
+
 		res := types.InitialResponseData{
 			NearestStation: types.Station{
 				Name: "新宿",
