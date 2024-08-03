@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"michikusa_back/types"
 	"net/http"
 	"os"
@@ -34,6 +35,19 @@ func main() {
 			// todo: fix エラーハンドリング
 			return c.JSON(http.StatusBadRequest, map[string]string{
 				"message": "Bad Request",
+			})
+		}
+
+		_, err := getNearestStation(req.Longitude, req.Latitude, odptAPIKey)
+		if err != nil {
+			log.Println(err)
+			if err.Error() == "no stations exits within searchable area" {
+				return c.JSON(http.StatusBadRequest, map[string]string{
+					"message": "No stations exits within searchable area",
+				})
+			}
+			return c.JSON(http.StatusInternalServerError, map[string]string{
+				"message": "Internal Server Error (getNearestStation)",
 			})
 		}
 
