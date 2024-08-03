@@ -48,11 +48,6 @@ func main() {
 		nearestStation, err := GetNearestStation(req.Longitude, req.Latitude, odptAPIKey)
 		if err != nil {
 			log.Println(err)
-			if err.Error() == "no stations exits within searchable area" {
-				return c.JSON(http.StatusBadRequest, map[string]string{
-					"message": "No stations exits within searchable area",
-				})
-			}
 			return c.JSON(http.StatusInternalServerError, map[string]string{
 				"message": "Internal Server Error (getNearestStation)",
 			})
@@ -100,11 +95,6 @@ func main() {
 		}, yahooAPIKey)
 		if err != nil {
 			log.Println(err)
-			if err.Error() == "no facilities found" {
-				return c.JSON(http.StatusBadRequest, map[string]string{
-					"message": "No facilities found",
-				})
-			}
 			return c.JSON(http.StatusInternalServerError, map[string]string{
 				"message": "Internal Server Error (getFacility)",
 			})
