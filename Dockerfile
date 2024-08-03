@@ -6,7 +6,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o main main.go getNeaestStation.go getStationList.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o main main.go getNeaestStation.go getStationList.go getFacility.go
 
 FROM gcr.io/distroless/base-debian10
 COPY --from=builder /app/main /
