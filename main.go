@@ -38,11 +38,13 @@ func main() {
 		var req types.InitialRequestData
 		if err := c.Bind(&req); err != nil {
 			// todo: fix エラーハンドリング
+			log.Println(err)
 			return c.JSON(http.StatusBadRequest, map[string]string{
 				"message": "Bad Request",
 			})
 		}
 
+		log.Println("GET / with", req)
 		nearestStation, err := GetNearestStation(req.Longitude, req.Latitude, odptAPIKey)
 		if err != nil {
 			log.Println(err)
@@ -106,18 +108,18 @@ func main() {
 		var facilities []types.Facility
 		for _, facility := range facilityList.Feature {
 			lat, _ := strconv.ParseFloat(strings.Split(facility.Geometry.Coordinates, ",")[1], 64)
-			long, _ :=  strconv.ParseFloat(strings.Split(facility.Geometry.Coordinates, ",")[0], 64)
+			long, _ := strconv.ParseFloat(strings.Split(facility.Geometry.Coordinates, ",")[0], 64)
 			var genre string
 			if facility.Property.Genre == nil || len(facility.Property.Genre) == 0 {
 				genre = "その他"
-			}else{
+			} else {
 				genre = facility.Property.Genre[0].Name
 			}
 			facilities = append(facilities, types.Facility{
 				Name:      facility.Name,
 				Distance:  int(geo.Distance(orb.Point{destinationStation.Lat, destinationStation.Long}, orb.Point{lat, long})),
 				Genre:     genre,
-				Latitude: lat,
+				Latitude:  lat,
 				Longitude: long,
 			})
 		}
@@ -145,11 +147,13 @@ func main() {
 		var req types.LocationsRequestData
 		if err := c.Bind(&req); err != nil {
 			// todo: fix エラーハンドリング
+			log.Println(err)
 			return c.JSON(http.StatusBadRequest, map[string]string{
 				"message": "Bad Request",
 			})
 		}
 
+		log.Println("GET /location-list with", req)
 		facilityList, err := GetFacility(req, yahooAPIKey)
 		if err != nil {
 			log.Println(err)
@@ -157,17 +161,17 @@ func main() {
 				"message": "Internal Server Error (getFacility)",
 			})
 		}
-		
+
 		var facilities []types.Facility
 		for _, facility := range facilityList.Feature {
 			coords := strings.Split(facility.Geometry.Coordinates, ",")
 			lat, _ := strconv.ParseFloat(coords[1], 64)
-			long, _ :=  strconv.ParseFloat(coords[0], 64)
+			long, _ := strconv.ParseFloat(coords[0], 64)
 			facilities = append(facilities, types.Facility{
 				Name:      facility.Name,
 				Distance:  int(geo.Distance(orb.Point{req.Latitude, req.Longitude}, orb.Point{lat, long})),
 				Genre:     facility.Property.Genre[0].Name,
-				Latitude: lat,
+				Latitude:  lat,
 				Longitude: long,
 			})
 		}
