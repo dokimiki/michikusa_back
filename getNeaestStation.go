@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"michikusa_back/types"
 	"net/http"
+	"net/url"
 	"strconv"
 	"time"
 )
@@ -14,22 +15,25 @@ import (
 // 現在地の緯度経度から最寄りの駅を取得する関数
 // 200m, 400m, 800m, 1600m, 3200m の範囲で検索を行い、見つかればその駅を返す
 // 複数見つかった場合はランダムで1つ選ぶ
-// 見つからなかった場合は空の types.Station を返すため、呼び出し元でエラーハンドリングを行う必要がある
 func getNearestStation(longitude float64, latitude float64, odptAPIKey string) (types.OdptStation, error) {
-	lon := strconv.FormatFloat(longitude, 'f', -1, 64)
-	lat := strconv.FormatFloat(latitude, 'f', -1, 64)
+	baseURL := "https://api.odpt.org/api/v4/places/odpt:Station"
+	u, _ := url.Parse(baseURL)
+	q := u.Query()
+	q.Set("lon", strconv.FormatFloat(longitude, 'f', -1, 64))
+	q.Set("lat", strconv.FormatFloat(latitude, 'f', -1, 64))
+	q.Set("acl:consumerKey", odptAPIKey)
 	radiuses := []int{200, 400, 800, 1600, 3200}
-	client := &http.Client{}
 
 	for _, radius := range radiuses {
-		url := "https://api.odpt.org/api/v4/places/odpt:Station?lon=" + lon + "&lat=" + lat + "&radius=" + strconv.Itoa(radius) + "&acl:consumerKey=" + odptAPIKey
-
-		resp, err := client.Get(url)
+		q.Set("radius", strconv.Itoa(radius))
+		u.RawQuery = q.Encode()
+		req, _ := http.NewRequest("GET", u.String(), nil)
+		resp, err := http.DefaultClient.Do(req)
 		if err != nil {
 			return types.OdptStation{}, err
 		}
 		if resp.StatusCode != 200 {
-			return types.OdptStation{}, errors.New("failed to get nearest station")
+			return types.OdptStation{}, errors.New("failed to get nearest station. status code: " + strconv.Itoa(resp.StatusCode))
 		}
 		defer resp.Body.Close()
 

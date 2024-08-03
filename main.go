@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"michikusa_back/types"
 	"net/http"
 	"os"
@@ -39,7 +40,15 @@ func main() {
 
 		_, err := getNearestStation(req.Longitude, req.Latitude, odptAPIKey)
 		if err != nil {
-			return c.JSON(http.StatusInternalServerError, err)
+			log.Println(err)
+			if err.Error() == "no stations exit within searchable area" {
+				return c.JSON(http.StatusBadRequest, map[string]string{
+					"message": "No stations exit within searchable area",
+				})
+			}
+			return c.JSON(http.StatusInternalServerError, map[string]string{
+				"message": "Internal Server Error (getNearestStation)",
+			})
 		}
 
 		res := types.InitialResponseData{
