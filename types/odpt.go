@@ -59,5 +59,5 @@ type OdptStation struct {
 	ConnectingRailway []string `json:"odpt:connectingRailway,omitempty"`
 	ConnectionStation []string `json:"odpt:connectionStation,omitempty"`
 	StationTimetable []string `json:"odpt:stationTimetable,omitempty"`
-	PassengerSurvey []string `json:"odpt:passengerSurvey.omitempty"`
+	PassengerSurvey []string `json:"odpt:passengerSurvey,omitempty"`
 }
