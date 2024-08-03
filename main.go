@@ -5,17 +5,12 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
 	// 環境変数の読み込み
-	err := godotenv.Load()
-	if err != nil {
-		panic("Error loading .env file")
-	}
 	odptAPIKey := os.Getenv("ODPT_API_KEY")
 	if odptAPIKey == "" {
 		panic("Error loading ODPT_API_KEY")
