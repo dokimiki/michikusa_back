@@ -15,9 +15,9 @@ type Station struct {
 }
 // todo rename
 type InitialRequestData struct {
-	Latitude  float64 `json:"latitude"`
-	Longitude float64 `json:"longitude"`
-	Price	 int `json:"price,omitempty"`
+	Latitude  float64 `json:"latitude" query:"latitude"`
+	Longitude float64 `json:"longitude" query:"longitude"`
+	Price	 int `json:"price,omitempty" query:"price"`
 }
 
 type InitialResponseData struct {
@@ -30,8 +30,8 @@ type InitialResponseData struct {
 }
 
 type LocationsRequestData struct {
-	Latitude  float64 `json:"latitude"`
-	Longitude float64 `json:"longitude"`
+	Latitude  float64 `json:"latitude" query:"latitude"`
+	Longitude float64 `json:"longitude" query:"longitude"`
 }
 
 type LocationsResponseData struct {
