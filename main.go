@@ -73,8 +73,39 @@ func main() {
 				"message": "Internal Server Error (getRailwayInfo)",
 			})
 		}
+
+		var filteredStationList []types.OdptStation
+		if req.Price != 0 {
+			railwayFares, err := GetRailwayFare(nearestStation, odptAPIKey)
+			if err != nil {
+				log.Println(err)
+				return c.JSON(http.StatusInternalServerError, map[string]string{
+					"message": "Internal Server Error (getRailwayFare)",
+				})
+			}
+
+			fareMap := make(map[string]int)
+			for _, railwayFare := range railwayFares {
+				fareMap[railwayFare.ToStation] = railwayFare.TicketFare
+			}
+
+			for _, station := range stationList {
+				if fare, ok := fareMap[station.SameAs]; ok && fare <= req.Price {
+					filteredStationList = append(filteredStationList, station)
+				}
+			}
+		}else {
+			filteredStationList = stationList
+		}
+
+		if len(filteredStationList) == 0 {
+			return c.JSON(http.StatusBadRequest, map[string]string{
+				"message": "No station is available for travel at the specified fare",
+			})
+		}
+
 		// 乱数で行き先駅を選択
-		destinationStation := stationList[rand.Intn(len(stationList))]
+		destinationStation := filteredStationList[rand.Intn(len(filteredStationList))]
 
 		// neaest->destinationまでの駅数
 		var neaestStationIndex int
