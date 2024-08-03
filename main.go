@@ -64,6 +64,14 @@ func main() {
 			})
 		}
 
+		railwayInfo, err := GetRailwayInfo(nearestStation.Railway, odptAPIKey)
+		if err != nil {
+			log.Println(err)
+			return c.JSON(http.StatusInternalServerError, map[string]string{
+				"message": "Internal Server Error (getRailwayInfo)",
+			})
+		}
+
 		// 乱数で行き先駅を選択
 		destinationStation := stationList[rand.Intn(len(stationList))]
 
@@ -102,8 +110,8 @@ func main() {
 			Latitude:  destinationStation.Lat,
 			Longitude: destinationStation.Long,
 		}
-		res.RailwayName = "丸の内線" // todo: 仮
-		res.RailwayColor = "#ffffff" // todo: 仮
+		res.RailwayName = railwayInfo.Title
+		res.RailwayColor = railwayInfo.Color
 		res.Facilities = facilities
 		return c.JSON(http.StatusOK, res)
 	})
