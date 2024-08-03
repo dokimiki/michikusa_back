@@ -2,7 +2,7 @@ package types
 
 type Facility struct {
 	Name string `json:"name"`
-	Distance float64 `json:"distance"` // バックエンド側で計算した距離、単位はメートル
+	Distance int `json:"distance"` // バックエンド側で計算した距離、単位はメートル
 	Genre string `json:"genre"`
 	Latitude float64 `json:"latitude"`
 	Longitude float64 `json:"longitude"`

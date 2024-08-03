@@ -15,7 +15,7 @@ import (
 // 現在地の緯度経度から最寄りの駅を取得する関数
 // 200m, 400m, 800m, 1600m, 3200m の範囲で検索を行い、見つかればその駅を返す
 // 複数見つかった場合はランダムで1つ選ぶ
-func getNearestStation(longitude float64, latitude float64, odptAPIKey string) (types.OdptStation, error) {
+func GetNearestStation(longitude float64, latitude float64, odptAPIKey string) (types.OdptStation, error) {
 	baseURL := "https://api.odpt.org/api/v4/places/odpt:Station"
 	u, _ := url.Parse(baseURL)
 	q := u.Query()
