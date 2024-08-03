@@ -3,12 +3,28 @@ package main
 import (
 	"michikusa_back/types"
 	"net/http"
+	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
+	// 環境変数の読み込み
+	err := godotenv.Load()
+	if err != nil {
+		panic("Error loading .env file")
+	}
+	odptAPIKey := os.Getenv("ODPT_API_KEY")
+	if odptAPIKey == "" {
+		panic("Error loading ODPT_API_KEY")
+	}
+	yahooAPIKey := os.Getenv("YAHOO_API_KEY")
+	if yahooAPIKey == "" {
+		panic("Error loading YAHOO_API_KEY")
+	}
+
 	e := echo.New()
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
@@ -75,7 +91,7 @@ func main() {
 				"message": "Bad Request",
 			})
 		}
-		
+
 		res := types.LocationsResponseData{
 			Facilities: []types.Facility{
 				{
@@ -104,5 +120,5 @@ func main() {
 		return c.JSON(http.StatusOK, res)
 	})
 
-	e.Logger.Fatal(e.Start(":8080"))
+	e.Logger.Fatal(e.Start(":8081"))
 }
