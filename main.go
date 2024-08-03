@@ -78,7 +78,7 @@ func main() {
 	})
 
 	// 「行き先駅」の情報を受け取って、付近の施設の情報を返すAPI
-	e.GET("/locations-list", func(c echo.Context) error {
+	e.GET("/location-list", func(c echo.Context) error {
 		var req types.LocationsRequestData
 		if err := c.Bind(&req); err != nil {
 			// todo: fix エラーハンドリング
