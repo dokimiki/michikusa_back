@@ -89,7 +89,7 @@ func main() {
 					filteredStationList = append(filteredStationList, station)
 				}
 			}
-		}else {
+		} else {
 			filteredStationList = stationList
 		}
 
@@ -147,7 +147,7 @@ func main() {
 				Genre:     genre,
 				Latitude:  lat,
 				Longitude: long,
-				MapURL: "https://map.yahoo.co.jp/v2/place/" + facility.Gid,
+				MapURL:    "https://map.yahoo.co.jp/v2/place/" + facility.Gid,
 			})
 		}
 
@@ -205,7 +205,7 @@ func main() {
 				Genre:     facility.Property.Genre[0].Name,
 				Latitude:  lat,
 				Longitude: long,
-				MapURL: "https://map.yahoo.co.jp/v2/place/" + facility.Gid,
+				MapURL:    "https://map.yahoo.co.jp/v2/place/" + facility.Gid,
 			})
 		}
 		return c.JSON(http.StatusOK, types.LocationsResponseData{
