@@ -48,11 +48,6 @@ func main() {
 		nearestStation, err := GetNearestStation(req.Longitude, req.Latitude, odptAPIKey)
 		if err != nil {
 			log.Println(err)
-			if err.Error() == "no stations exits within searchable area" {
-				return c.JSON(http.StatusBadRequest, map[string]string{
-					"message": "No stations exits within searchable area",
-				})
-			}
 			return c.JSON(http.StatusInternalServerError, map[string]string{
 				"message": "Internal Server Error (getNearestStation)",
 			})
@@ -137,7 +132,7 @@ func main() {
 		}
 
 		var facilities []types.Facility
-		for _, facility := range facilityList.Feature {
+		for _, facility := range facilityList {
 			lat, _ := strconv.ParseFloat(strings.Split(facility.Geometry.Coordinates, ",")[1], 64)
 			long, _ := strconv.ParseFloat(strings.Split(facility.Geometry.Coordinates, ",")[0], 64)
 			var genre string
@@ -189,13 +184,18 @@ func main() {
 		facilityList, err := GetFacility(req, yahooAPIKey)
 		if err != nil {
 			log.Println(err)
+			if err.Error() == "no facilities found" {
+				return c.JSON(http.StatusBadRequest, map[string]string{
+					"message": "No facilities found",
+				})
+			}
 			return c.JSON(http.StatusInternalServerError, map[string]string{
 				"message": "Internal Server Error (getFacility)",
 			})
 		}
 
 		var facilities []types.Facility
-		for _, facility := range facilityList.Feature {
+		for _, facility := range facilityList {
 			coords := strings.Split(facility.Geometry.Coordinates, ",")
 			lat, _ := strconv.ParseFloat(coords[1], 64)
 			long, _ := strconv.ParseFloat(coords[0], 64)
