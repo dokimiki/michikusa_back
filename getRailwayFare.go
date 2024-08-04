@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func GetRailwayFare(nearestStation types.OdptStation,odptAPIKey string) ([]types.OdptRailwayFare, error) {
+func GetRailwayFare(nearestStation types.OdptStation, odptAPIKey string) ([]types.OdptRailwayFare, error) {
 	baseURL := "https://api.odpt.org/api/v4/odpt:RailwayFare"
 	u, _ := url.Parse(baseURL)
 	q := u.Query()
