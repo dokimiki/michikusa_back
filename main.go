@@ -29,7 +29,7 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"https://michikusa-front.pages.dev/", "http://localhost:5173"},
+		AllowOrigins: []string{"https://michikusa-front.pages.dev", "http://localhost:5173"},
 		AllowMethods: []string{http.MethodGet},
 	}))
 
