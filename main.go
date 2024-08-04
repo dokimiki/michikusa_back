@@ -156,11 +156,13 @@ func main() {
 			Name:      nearestStation.Title,
 			Latitude:  nearestStation.Lat,
 			Longitude: nearestStation.Long,
+			StationCode: nearestStation.StationCode,
 		}
 		res.DestinationStation = types.Station{
 			Name:      destinationStation.Title,
 			Latitude:  destinationStation.Lat,
 			Longitude: destinationStation.Long,
+			StationCode: destinationStation.StationCode,
 		}
 		res.RailwayName = railwayInfo.Title
 		res.RailwayColor = railwayInfo.Color

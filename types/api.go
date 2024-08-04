@@ -13,6 +13,7 @@ type Station struct {
 	Name string `json:"name"`
 	Latitude float64 `json:"latitude"`
 	Longitude float64 `json:"longitude"`
+	StationCode string `json:"station_code"`
 }
 // todo rename
 type InitialRequestData struct {
